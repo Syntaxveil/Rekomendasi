@@ -4,68 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Membuka Shopee...</title>
-    
-    <!-- Open Graph agar tampilan pratinjau di FB tetap rapi -->
-    <meta property="og:title" content="Lihat Produk di Shopee" />
-    <meta property="og:description" content="Klik untuk langsung membuka produk di aplikasi Shopee." />
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 20%;
-            background-color: #f8f9fa;
-        }
-        .btn-shopee {
-            display: inline-block;
-            background-color: #ee4d2d;
-            color: #ffffff;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-    </style>
 </head>
-<body>
+<body style="text-align:center; padding-top:20%; font-family:sans-serif;">
 
-    <p>Sedang mengalihkan ke aplikasi Shopee...</p>
-    
-    <!-- Tombol manual jika redirect otomatis tertahan -->
-    <a id="shopeeBtn" class="btn-shopee" href="#">Buka Aplikasi Shopee</a>
+    <p>Sedang membuka Shopee...</p>
 
     <script>
-        // 1. Tentukan URL Tujuan (Ganti dengan link produk / affiliate Anda)
-        var originalUrl = "https://s.shopee.co.id/9fKHRzwPRt"; 
-        
-        // 2. Format Deep Link / Intent
-        // Android Intent Format
-        var androidIntent = "intent://" + originalUrl.replace(/^https?:\/\//, '') + "#Intent;scheme=https;package=com.shopee.id;S.browser_fallback_url=" + encodeURIComponent(originalUrl) + ";end";
-        
-        // iOS Deep Link Scheme
-        var iosScheme = "shopeeid://";
+        // Masukkan link Shopee / Affiliate Anda di sini
+        var rawUrl = "https://s.shopee.co.id/7VFmcEzxkv"; 
 
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        var cleanUrl = rawUrl.replace(/^https?:\/\//, '');
+        var userAgent = navigator.userAgent || "";
 
-        // Pasang link ke tombol manual
-        var btn = document.getElementById("shopeeBtn");
+        // Deteksi in-app browser Facebook di Android
+        var isFB = userAgent.indexOf("FBAN") > -1 || userAgent.indexOf("FBAV") > -1;
+        var isAndroid = /android/i.test(userAgent);
 
-        if (/android/i.test(userAgent)) {
-            btn.href = androidIntent;
-            // Jalankan redirect otomatis
-            window.location.href = androidIntent;
-        } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            btn.href = originalUrl;
-            // Coba buka scheme app di iOS, jika gagal tetap di URL web
-            window.location.href = iosScheme;
-            setTimeout(function() {
-                window.location.href = originalUrl;
-            }, 1500);
+        if (isFB && isAndroid) {
+            // Trik bypass: Buka via Chrome Intent agar tidak memicu pop-up FB
+            window.location.href = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.android.chrome;end";
+        } else if (isAndroid) {
+            // Jika sudah di luar FB, tembak langsung ke aplikasi Shopee
+            window.location.href = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.shopee.id;end";
         } else {
-            // Jika dibuka dari Laptop/PC Desktop
-            btn.href = originalUrl;
-            window.location.href = originalUrl;
+            // iPhone / PC Desktop
+            window.location.href = rawUrl;
         }
     </script>
 </body>
