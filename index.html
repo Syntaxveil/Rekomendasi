@@ -2,28 +2,19 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Mengalihkan...</title>
-</head>
-<body>
+    <title>Redirecting...</title>
     <script>
-        var targetUrl = "https://s.shopee.co.id/6AkPfbwsBS"; // Link Shopee Anda
+        var targetUrl = "https://s.shopee.co.id/1gI0JhnfEr";
         var cleanUrl = targetUrl.replace(/^https?:\/\//, '');
 
-        // Trik Android: Lempar via Download Manager Header
-        var intent = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.shopee.id;action=android.intent.action.VIEW;end";
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function() {
+            window.location.replace("shopeeid://universal-link?url=" + encodeURIComponent(targetUrl));
+        };
 
-        // Buat blob file kosong untuk memaksa IAB keluar
-        try {
-            var blob = new Blob([""], { type: "application/octet-stream" });
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement("a");
-            a.href = intent;
-            a.download = "";
-            document.body.appendChild(a);
-            a.click();
-        } catch(e) {
-            window.location.href = intent;
-        }
+        // Langsung picu back-event otomatis
+        window.history.back();
     </script>
-</body>
+</head>
+<body></body>
 </html>
