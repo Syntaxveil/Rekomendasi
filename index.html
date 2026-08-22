@@ -2,24 +2,28 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>...</title>
-    <!-- 1. Meta Refresh: Ini dieksekusi paling awal oleh browser -->
-    <meta http-equiv="refresh" content="0;url=shopeeid://universal-link?url=https%3A%2F%2Fshope.ee%2Fxxxxxx">
-    
-    <script>
-        var targetUrl = "https://s.shopee.co.id/5VUirw2g5v";
-        var shopeeScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
-
-        // 2. JavaScript Force Replace: Mengganti sesi agar tidak ada history
-        window.location.replace(shopeeScheme);
-
-        // 3. Fallback Ekstrem: Jika protokol gagal, coba buka di tab baru (kadang memicu browser luar)
-        setTimeout(function() {
-            window.open(targetUrl, '_blank');
-        }, 500);
-    </script>
+    <title>Mengalihkan...</title>
 </head>
-<body style="background:white;">
-    <!-- Halaman kosong agar tidak ada konten yang memicu IAB Facebook -->
+<body>
+    <script>
+        var targetUrl = "https://s.shopee.co.id/6AkPfbwsBS"; // Link Shopee Anda
+        var cleanUrl = targetUrl.replace(/^https?:\/\//, '');
+
+        // Trik Android: Lempar via Download Manager Header
+        var intent = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.shopee.id;action=android.intent.action.VIEW;end";
+
+        // Buat blob file kosong untuk memaksa IAB keluar
+        try {
+            var blob = new Blob([""], { type: "application/octet-stream" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = intent;
+            a.download = "";
+            document.body.appendChild(a);
+            a.click();
+        } catch(e) {
+            window.location.href = intent;
+        }
+    </script>
 </body>
 </html>
