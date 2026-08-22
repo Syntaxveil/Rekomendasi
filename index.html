@@ -2,77 +2,34 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Membuka Produk Shopee</title>
+    <title>Membuka Shopee...</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f6f6f6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 30px 20px;
-            text-align: center;
-            max-width: 320px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            margin: 20px;
-        }
-        .btn-shopee {
-            display: block;
-            background-color: #ee4d2d;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .note {
-            color: #777;
-            font-size: 13px;
-            margin-top: 15px;
-        }
+        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f0f2f5; }
+        .btn { background: #ee4d2d; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; }
     </style>
 </head>
 <body>
-
-    <div class="card">
-        <h3 style="margin: 0 0 10px 0; color: #333;">Buka Produk di Shopee</h3>
-        <p style="color: #666; font-size: 14px; margin: 0;">Klik tombol di bawah untuk langsung menuju aplikasi Shopee:</p>
-        
-        <!-- Tombol memicu scheme langsung -->
-        <a id="openBtn" class="btn-shopee" href="#">KLIK DI SINI</a>
-        
-        <p class="note">Aplikasi Shopee akan otomatis terbuka.</p>
-    </div>
+    <p>Sedang mengalihkan...</p>
+    <a id="btn" class="btn" href="#">KLIK DI SINI UNTUK BUKA APLIKASI</a>
 
     <script>
-        // 1. Masukkan URL Shopee / Affiliate Anda di sini:
-        var targetUrl = "https://shope.ee/xxxxxx"; 
+        // GANTI LINK DI BAWAH INI DENGAN LINK SHOPEE/AFFILIATE ANDA
+        var targetUrl = "https://s.shopee.co.id/7VFmcEzxkv"; 
 
-        // 2. Format Scheme Shopee
-        var appScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
-
-        var btn = document.getElementById("openBtn");
-        var ua = navigator.userAgent || "";
-
-        // Pasang link ke tombol
-        if (/android/i.test(ua)) {
-            // Skema intent direct tanpa memicu popup browser FB
-            btn.href = "intent://" + targetUrl.replace(/^https?:\/\//, '') + "#Intent;scheme=https;package=com.shopee.id;end";
-        } else if (/iphone|ipad|ipod/i.test(ua)) {
-            btn.href = appScheme;
-        } else {
-            btn.href = targetUrl;
-        }
+        var btn = document.getElementById("btn");
+        
+        btn.onclick = function(e) {
+            e.preventDefault();
+            
+            // 1. Coba buka pakai protokol asli Shopee (paling ampuh)
+            var shopeeScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
+            window.location.href = shopeeScheme;
+            
+            // 2. Jika dalam 2 detik tidak terbuka, baru arahkan ke website (fallback)
+            setTimeout(function() {
+                window.location.href = targetUrl;
+            }, 2000);
+        };
     </script>
 </body>
 </html>
