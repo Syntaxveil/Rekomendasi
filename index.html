@@ -1,35 +1,24 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Membuka Shopee...</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f0f2f5; }
-        .btn { background: #ee4d2d; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; }
-    </style>
-</head>
-<body>
-    <p>Sedang mengalihkan...</p>
-    <a id="btn" class="btn" href="#">KLIK DI SINI UNTUK BUKA APLIKASI</a>
-
+    <meta http-equiv="refresh" content="0; url=shopeeid://universal-link?url=https%3A%2F%2Fshope.ee%2Fxxxxxx" />
     <script>
-        // GANTI LINK DI BAWAH INI DENGAN LINK SHOPEE/AFFILIATE ANDA
-        var targetUrl = "https://s.shopee.co.id/7VFmcEzxkv"; 
+        // GANTI LINK DI BAWAH INI DENGAN LINK AFFILIATE ANDA
+        var targetUrl = "https://shope.ee/xxxxxx"; 
+        var shopeeScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
 
-        var btn = document.getElementById("btn");
-        
-        btn.onclick = function(e) {
-            e.preventDefault();
-            
-            // 1. Coba buka pakai protokol asli Shopee (paling ampuh)
-            var shopeeScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
+        window.onload = function() {
+            // Mencoba membuka aplikasi
             window.location.href = shopeeScheme;
             
-            // 2. Jika dalam 2 detik tidak terbuka, baru arahkan ke website (fallback)
+            // Jika aplikasi tidak terbuka dalam 1,5 detik, arahkan ke web
             setTimeout(function() {
                 window.location.href = targetUrl;
-            }, 2000);
+            }, 1500);
         };
     </script>
+</head>
+<body>
+    <p>Sedang membuka Shopee...</p>
 </body>
 </html>
