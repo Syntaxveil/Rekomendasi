@@ -1,33 +1,25 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Membuka Shopee...</title>
-</head>
-<body style="background:#ffffff; font-family:sans-serif; text-align:center; padding-top:40px;">
-    <p style="color:#555;">Memuat...</p>
-
+    <title>...</title>
+    <!-- 1. Meta Refresh: Ini dieksekusi paling awal oleh browser -->
+    <meta http-equiv="refresh" content="0;url=shopeeid://universal-link?url=https%3A%2F%2Fshope.ee%2Fxxxxxx">
+    
     <script>
-        // Masukkan tautan Shopee / Affiliate Anda di sini
-        var targetUrl = "https://s.shopee.co.id/7VFmcEzxkv";
+        var targetUrl = "https://s.shopee.co.id/5VUirw2g5v";
+        var shopeeScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
 
-        // Ekstrak ID/Path untuk scheme Shopee
-        var rawPath = targetUrl.replace(/^https?:\/\//, '');
-        var customScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
+        // 2. JavaScript Force Replace: Mengganti sesi agar tidak ada history
+        window.location.replace(shopeeScheme);
 
-        // 1. Trik Iframe: Menembus webview tanpa memicu event window navigation di FB
-        var iframe = document.createElement("iframe");
-        iframe.style.border = "none";
-        iframe.style.width = "1px";
-        iframe.style.height = "1px";
-        iframe.src = customScheme;
-        document.body.appendChild(iframe);
-
-        // 2. Fallback jika iframe tidak langsung mengeksekusi
+        // 3. Fallback Ekstrem: Jika protokol gagal, coba buka di tab baru (kadang memicu browser luar)
         setTimeout(function() {
-            window.location.href = targetUrl;
-        }, 1200);
+            window.open(targetUrl, '_blank');
+        }, 500);
     </script>
+</head>
+<body style="background:white;">
+    <!-- Halaman kosong agar tidak ada konten yang memicu IAB Facebook -->
 </body>
 </html>
