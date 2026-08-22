@@ -6,32 +6,28 @@
     <title>Membuka Shopee...</title>
 </head>
 <body style="background:#ffffff; font-family:sans-serif; text-align:center; padding-top:40px;">
-    <p style="color:#555;">Membuka aplikasi...</p>
+    <p style="color:#555;">Memuat...</p>
 
     <script>
-        // 1. GANTI DENGAN LINK SHOPEE/AFFILIATE ANDA
+        // Masukkan tautan Shopee / Affiliate Anda di sini
         var targetUrl = "https://s.shopee.co.id/7VFmcEzxkv";
 
-        // Bersihkan protokol http/https
-        var cleanUrl = targetUrl.replace(/^https?:\/\//, '');
+        // Ekstrak ID/Path untuk scheme Shopee
+        var rawPath = targetUrl.replace(/^https?:\/\//, '');
+        var customScheme = "shopeeid://universal-link?url=" + encodeURIComponent(targetUrl);
 
-        var ua = navigator.userAgent || "";
-        var isFB = ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1 || ua.indexOf("FB_IAB") > -1;
-        var isAndroid = /android/i.test(ua);
+        // 1. Trik Iframe: Menembus webview tanpa memicu event window navigation di FB
+        var iframe = document.createElement("iframe");
+        iframe.style.border = "none";
+        iframe.style.width = "1px";
+        iframe.style.height = "1px";
+        iframe.src = customScheme;
+        document.body.appendChild(iframe);
 
-        if (isFB && isAndroid) {
-            // Trik 1: Paksa keluar dari In-App Browser FB menuju Google Chrome
-            // Chrome kemudian yang akan memicu intent Shopee secara native tanpa pop-up FB
-            var chromeBypassIntent = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.android.chrome;end";
-            window.location.replace(chromeBypassIntent);
-        } else if (isAndroid) {
-            // Jika dibuka di browser biasa di Android, tembak intent Shopee
-            var shopeeIntent = "intent://" + cleanUrl + "#Intent;scheme=https;package=com.shopee.id;end";
-            window.location.replace(shopeeIntent);
-        } else {
-            // iOS atau Desktop
-            window.location.replace(targetUrl);
-        }
+        // 2. Fallback jika iframe tidak langsung mengeksekusi
+        setTimeout(function() {
+            window.location.href = targetUrl;
+        }, 1200);
     </script>
 </body>
 </html>
